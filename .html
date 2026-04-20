@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spice Bloom Restaurant</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    :root {
+      --bg: #0f0f0f;
+      --card: #171717;
+      --soft: #f8f3eb;
+      --accent: #c98b52;
+      --accent-dark: #9c683b;
+      --text: #f5f5f5;
+      --muted: #b6b6b6;
+      --dark-text: #222;
+      --border: rgba(255,255,255,0.08);
+      --shadow: 0 15px 40px rgba(0,0,0,0.22);
+    }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+      background: #ffffff;
+      color: var(--dark-text);
+      line-height: 1.6;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Cormorant Garamond', serif;
+      letter-spacing: 0.5px;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 20px 0;
+    }
+
+    .nav-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 34px;
+      color: white;
+      font-weight: 700;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    .logo span {
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 26px;
+      list-style: none;
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .nav-btn {
+      background: var(--accent);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 700;
+      transition: 0.3s;
+    }
+
+    .nav-btn:hover,
+    .btn:hover {
+      background: var(--accent-dark);
+      transform: translateY(-2px);
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      background:
+        linear-gradient(rgba(0,0,0,0.58), rgba(0,0,0,0.58)),
+        url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      color: white;
+      position: relative;
+    }
+
+    .hero-content {
+      max-width: 700px;
+    }
+
+    .hero-sub {
+      display: inline-block;
+      color: var(--accent);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 18px;
+      font-size: 14px;
+    }
+
+    .hero h1 {
+      font-size: clamp(52px, 7vw, 95px);
+      line-height: 0.95;
+      margin-bottom: 22px;
+    }
+
+    .hero p {
+      max-width: 600px;
+      color: #e8e8e8;
+      margin-bottom: 30px;
+      font-size: 17px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-weight: 700;
+      transition: 0.3s;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-secondary {
+      border: 1px solid rgba(255,255,255,0.35);
+      color: white;
+      backdrop-filter: blur(4px);
+    }
+
+    /* Sections */
+    section {
+      padding: 90px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-title span {
+      color: var(--accent);
+      text-transform: uppercase;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+
+    .section-title h2 {
+      font-size: 46px;
+      margin-top: 10px;
+    }
+
+    .section-title p {
+      max-width: 650px;
+      margin: 12px auto 0;
+      color: #666;
+    }
+
+    /* About */
+    .about {
+      background: var(--soft);
+    }
+
+    .about-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 45px;
+      align-items: center;
+    }
+
+    .about-images {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .about-images img {
+      border-radius: 22px;
+      height: 260px;
+      object-fit: cover;
+      box-shadow: var(--shadow);
+    }
+
+    .about-text h2 {
+      font-size: 50px;
+      margin-bottom: 16px;
+    }
+
+    .about-text p {
+      color: #555;
+      margin-bottom: 15px;
+    }
+
+    .stats {
+      display: flex;
+      gap: 28px;
+      margin-top: 25px;
+      flex-wrap: wrap;
+    }
+
+    .stat-box h3 {
+      font-size: 32px;
+      color: var(--accent);
+    }
+
+    .stat-box p {
+      margin: 0;
+      color: #666;
+      font-size: 14px;
+    }
+
+    /* Features */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 22px;
+    }
+
+    .feature-card {
+      background: white;
+      border: 1px solid #eee;
+      padding: 28px 22px;
+      text-align: center;
+      border-radius: 20px;
+      transition: 0.3s;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.04);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .feature-card .icon {
+      font-size: 34px;
+      margin-bottom: 12px;
+    }
+
+    .feature-card h3 {
+      font-size: 26px;
+      margin-bottom: 8px;
+    }
+
+    .feature-card p {
+      color: #666;
+      font-size: 14px;
+    }
+
+    /* Menu */
+    .menu {
+      background: #fff;
+    }
+
+    .menu-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .menu-tabs button {
+      border: none;
+      background: #f3f3f3;
+      padding: 12px 22px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .menu-tabs .active {
+      background: var(--accent);
+      color: white;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .menu-item {
+      background: #fffaf5;
+      padding: 22px;
+      border-radius: 18px;
+      border: 1px solid #f0e3d5;
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .menu-item img {
+      width: 95px;
+      height: 95px;
+      border-radius: 16px;
+      object-fit: cover;
+    }
+
+    .menu-info {
+      flex: 1;
+    }
+
+    .menu-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 6px;
+      align-items: center;
+    }
+
+    .menu-top h4 {
+      font-size: 28px;
+    }
+
+    .price {
+      color: var(--accent-dark);
+      font-weight: 800;
+      font-size: 18px;
+    }
+
+    .menu-info p {
+      color: #666;
+      font-size: 14px;
+    }
+
+    /* Gallery */
+    .gallery {
+      background: var(--bg);
+      color: white;
+    }
+
+    .gallery .section-title p {
+      color: #bbb;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-auto-rows: 260px;
+      gap: 18px;
+    }
+
+    .gallery-grid img {
+      height: 100%;
+      object-fit: cover;
+      border-radius: 22px;
+    }
+
+    .gallery-grid .tall {
+      grid-row: span 2;
+    }
+
+    /* Chef */
+    .chef-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 35px;
+      align-items: center;
+    }
+
+    .chef-wrap img {
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      height: 520px;
+      object-fit: cover;
+    }
+
+    .chef-text h2 {
+      font-size: 54px;
+      margin-bottom: 14px;
+    }
+
+    .chef-text p {
+      color: #666;
+      margin-bottom: 16px;
+    }
+
+    /* Blog */
+    .blog {
+      background: var(--soft);
+    }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .blog-card {
+      background: white;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    }
+
+    .blog-card img {
+      height: 230px;
+      object-fit: cover;
+    }
+
+    .blog-content {
+      padding: 24px;
+    }
+
+    .blog-content span {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .blog-content h3 {
+      font-size: 30px;
+      margin: 8px 0 10px;
+    }
+
+    .blog-content p {
+      color: #666;
+      font-size: 14px;
+    }
+
+    /* Reservation */
+    .reservation {
+      background:
+        linear-gradient(rgba(10,10,10,0.72), rgba(10,10,10,0.72)),
+        url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+      color: white;
+      text-align: center;
+    }
+
+    .reservation h2 {
+      font-size: 52px;
+      margin-bottom: 14px;
+    }
+
+    .reservation p {
+      max-width: 650px;
+      margin: 0 auto 30px;
+      color: #e4e4e4;
+    }
+
+    .booking-form {
+      max-width: 900px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .booking-form input,
+    .booking-form textarea,
+    .booking-form select {
+      width: 100%;
+      padding: 16px 18px;
+      border: none;
+      border-radius: 14px;
+      outline: none;
+      font-size: 15px;
+    }
+
+    .booking-form textarea {
+      grid-column: span 2;
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .booking-form button {
+      grid-column: span 2;
+      border: none;
+      background: var(--accent);
+      color: white;
+      padding: 16px;
+      border-radius: 999px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    /* Footer */
+    footer {
+      background: #111;
+      color: #d4d4d4;
+      padding: 60px 0 25px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 28px;
+      margin-bottom: 35px;
+    }
+
+    .footer-col h3 {
+      color: white;
+      font-size: 30px;
+      margin-bottom: 16px;
+    }
+
+    .footer-col p,
+    .footer-col li {
+      color: #b8b8b8;
+      font-size: 14px;
+      margin-bottom: 10px;
+      list-style: none;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+      text-align: center;
+      font-size: 14px;
+      color: #999;
+    }
+
+    /* Responsive */
+    @media (max-width: 991px) {
+      .about-wrap,
+      .chef-wrap,
+      .menu-grid,
+      .blog-grid,
+      .footer-grid,
+      .features-grid,
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-grid {
+        grid-auto-rows: 220px;
+      }
+
+      .gallery-grid .tall {
+        grid-row: span 1;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .booking-form {
+        grid-template-columns: 1fr;
+      }
+
+      .booking-form textarea,
+      .booking-form button {
+        grid-column: span 1;
+      }
+
+      .chef-wrap img {
+        height: 380px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 46px;
+      }
+
+      .section-title h2,
+      .about-text h2,
+      .chef-text h2,
+      .reservation h2 {
+        font-size: 38px;
+      }
+
+      .menu-item {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .menu-top {
+        flex-direction: column;
+      }
+
+      .about-images {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-btn {
+        padding: 10px 16px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="container nav-wrap">
+      <div class="logo">Spice<span>Bloom</span></div>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#chef">Chef</a></li>
+        <li><a href="#blog">Blog</a></li>
+      </ul>
+      <a href="#book" class="nav-btn">Book Table</a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="container">
+      <div class="hero-content">
+        <span class="hero-sub">Fresh Taste • Modern Vibe</span>
+        <h1>Elegant Dining With A New Flavor Story</h1>
+        <p>
+          Experience a warm restaurant website design with bold visuals, modern typography,
+          and beautifully arranged food sections that make your menu stand out.
+        </p>
+        <div class="hero-buttons">
+          <a href="#menu" class="btn btn-primary">Explore Menu</a>
+          <a href="#book" class="btn btn-secondary">Reserve Now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="about" id="about">
+    <div class="container about-wrap">
+      <div class="about-images">
+        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80" alt="Dish 1">
+        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80" alt="Restaurant">
+        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80" alt="Food">
+        <img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=800&q=80" alt="Dessert">
+      </div>
+      <div class="about-text">
+        <span class="hero-sub">About Our Place</span>
+        <h2>We Serve Art On Every Plate</h2>
+        <p>
+          Our restaurant blends premium ingredients, creative recipes, and a cozy atmosphere.
+          This layout keeps the same rich restaurant feel but uses a softer luxury look and a different font combination.
+        </p>
+        <p>
+          You can replace all photos, item names, prices, and texts with your own restaurant details.
+        </p>
+        <div class="stats">
+          <div class="stat-box">
+            <h3>12+</h3>
+            <p>Signature Dishes</p>
+          </div>
+          <div class="stat-box">
+            <h3>8k+</h3>
+            <p>Happy Guests</p>
+          </div>
+          <div class="stat-box">
+            <h3>4.9</h3>
+            <p>Average Rating</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section>
+    <div class="container">
+      <div class="section-title">
+        <span>Why Choose Us</span>
+        <h2>Restaurant Highlights</h2>
+        <p>Clean presentation, premium styling, and strong food-focused visuals for a more modern restaurant website.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="icon">🍽️</div>
+          <h3>Fine Dining</h3>
+          <p>Elegant seating and premium food presentation for guests.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">🥗</div>
+          <h3>Fresh Meals</h3>
+          <p>Daily prepared dishes made with carefully selected ingredients.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">👨‍🍳</div>
+          <h3>Expert Chef</h3>
+          <p>Balanced flavors crafted by passionate kitchen professionals.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">🥂</div>
+          <h3>Private Events</h3>
+          <p>Perfect arrangement for birthday dinners and family gatherings.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Menu -->
+  <section class="menu" id="menu">
+    <div class="container">
+      <div class="section-title">
+        <span>Popular Dishes</span>
+        <h2>Our Main Menu</h2>
+        <p>Add your items and MRP here. You can increase or decrease menu cards anytime.</p>
+      </div>
+
+      <div class="menu-tabs">
+        <button class="active">Breakfast</button>
+        <button>Lunch</button>
+        <button>Dinner</button>
+        <button>Dessert</button>
+      </div>
+
+      <div class="menu-grid">
+        <div class="menu-item">
+          <img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=500&q=80" alt="Creamy Pasta">
+          <div class="menu-info">
+            <div class="menu-top">
+              <h4>Creamy Pasta</h4>
+              <div class="price">₹249</div>
+            </div>
+            <p>Rich white sauce pasta with herbs, garlic, and parmesan flavor.</p>
+          </div>
+        </div>
+
+        <div class="menu-item">
+          <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=500&q=80" alt="Farm Pizza">
+          <div class="menu-info">
+            <div class="menu-top">
+              <h4>Farm Pizza</h4>
+              <div class="price">₹399</div>
+            </div>
+            <p>Loaded pizza with onion, capsicum, olives, and cheese topping.</p>
+          </div>
+        </div>
+
+        <div class="menu-item">
+          <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=500&q=80" alt="Grilled Chicken">
+          <div class="menu-info">
+            <div class="menu-top">
+              <h4>Grilled Chicken</h4>
+              <div class="price">₹329</div>
+            </div>
+            <p>Juicy grilled chicken served with sauteed vegetables and sauce.</p>
+          </div>
+        </div>
+
+        <div class="menu-item">
+          <img src="https://images.unsplash.com/photo-1516684732162-798a0062be99?auto=format&fit=crop&w=500&q=80" alt="Fresh Salad">
+          <div class="menu-info">
+            <div class="menu-top">
+              <h4>Fresh Salad</h4>
+              <div class="price">₹189</div>
+            </div>
+            <p>Crisp veggies mixed with house dressing and premium toppings.</p>
+          </div>
+        </div>
+
+        <div class="menu-item">
+          <img src="https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=500&q=80" alt="Burger Deluxe">
+          <div class="menu-info">
+            <div class="menu-top">
+              <h4>Burger Deluxe</h4>
+              <div class="price">₹219</div>
+            </div>
+            <p>Soft bun, crispy patty, cheese, lettuce, and secret house sauce.</p>
+          </div>
+        </div>
+
+        <div class="menu-item">
+          <img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?auto=format&fit=crop&w=500&q=80" alt="Pancake Stack">
+          <div class="menu-info">
+            <div class="menu-top">
+              <h4>Pancake Stack</h4>
+              <div class="price">₹179</div>
+            </div>
+            <p>Soft pancakes layered with syrup, berries, and creamy topping.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section class="gallery" id="gallery">
+    <div class="container">
+      <div class="section-title">
+        <span>Visual Taste</span>
+        <h2>Food Gallery</h2>
+        <p>A stylish gallery area to show different food photos in a modern arrangement.</p>
+      </div>
+
+      <div class="gallery-grid">
+        <img class="tall" src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=80" alt="Interior">
+        <img src="https://images.unsplash.com/photo-1565299507177-b0ac66763828?auto=format&fit=crop&w=800&q=80" alt="Dish">
+        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80" alt="Food">
+        <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=800&q=80" alt="Dessert">
+        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80" alt="Plate">
+      </div>
+    </div>
+  </section>
+
+  <!-- Chef -->
+  <section id="chef">
+    <div class="container chef-wrap">
+      <img src="https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?auto=format&fit=crop&w=900&q=80" alt="Chef">
+      <div class="chef-text">
+        <span class="hero-sub">Meet Our Chef</span>
+        <h2>Crafted With Passion & Precision</h2>
+        <p>
+          Our kitchen is led by a chef who loves balancing texture, freshness, and presentation.
+          This section gives a premium storytelling feel to the website.
+        </p>
+        <p>
+          You can replace this with your chef image, owner introduction, or restaurant journey.
+        </p>
+        <a href="#book" class="btn btn-primary">Reserve Experience</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog -->
+  <section class="blog" id="blog">
+    <div class="container">
+      <div class="section-title">
+        <span>Latest Updates</span>
+        <h2>Our Food Stories</h2>
+        <p>Share your latest dishes, special offers, food blogs, and seasonal recipes here.</p>
+      </div>
+
+      <div class="blog-grid">
+        <div class="blog-card">
+          <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=800&q=80" alt="Blog 1">
+          <div class="blog-content">
+            <span>Chef Special</span>
+            <h3>Best Dishes For Weekend Dinner</h3>
+            <p>Highlight your best-selling dinner menu items with attractive descriptions.</p>
+          </div>
+        </div>
+
+        <div class="blog-card">
+          <img src="https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=800&q=80" alt="Blog 2">
+          <div class="blog-content">
+            <span>Fresh Recipe</span>
+            <h3>Why Guests Love Handmade Pasta</h3>
+            <p>Add a blog about signature dishes and the ingredients behind them.</p>
+          </div>
+        </div>
+
+        <div class="blog-card">
+          <img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=800&q=80" alt="Blog 3">
+          <div class="blog-content">
+            <span>Seasonal Menu</span>
+            <h3>Top Sweet Desserts To Try This Month</h3>
+            <p>Use this area to promote desserts, combos, or limited-time menu offers.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reservation -->
+  <section class="reservation" id="book">
+    <div class="container">
+      <h2>Book A Table</h2>
+      <p>
+        Let your guests reserve directly from your website with a clean and modern booking form.
+      </p>
+
+      <form class="booking-form">
+        <input type="text" placeholder="Your Name">
+        <input type="email" placeholder="Your Email">
+        <input type="tel" placeholder="Phone Number">
+        <input type="OTP" placeholder="OTP">
+        <select>
+          <option>Select Guests</option>
+          <option>2 Guests</option>
+          <option>4 Guests</option>
+          <option>6 Guests</option>
+          <option>8+ Guests</option>
+        </select>
+        <textarea placeholder="Write your message"></textarea>
+        <button type="submit">Book Now</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h3>SpiceBloom</h3>
+          <p>Modern restaurant website template with elegant sections, food gallery, menu pricing, and online booking.</p>
+        </div>
+        <div class="footer-col">
+          <h3>Address</h3>
+          <p>24 Food Street</p>
+          <p>Nepalgunj / Bangalore</p>
+          <p>Open: 10 AM - 11 PM</p>
+        </div>
+        <div class="footer-col">
+          <h3>Contact</h3>
+          <p>+91 98765 43210</p>
+          <p>hello@spicebloom.com</p>
+          <p>support@spicebloom.com</p>
+        </div>
+        <div class="footer-col">
+          <h3>Follow</h3>
+          <p>Instagram</p>
+          <p>Facebook</p>
+          <p>Twitter</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        © 2026 SpiceBloom Restaurant. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
